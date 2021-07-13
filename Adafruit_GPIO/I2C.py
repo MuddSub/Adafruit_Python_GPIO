@@ -56,7 +56,7 @@ def get_default_bus():
     else:
         raise RuntimeError('Could not determine default I2C bus for platform.')
 
-def get_i2c_device(address, busnum=None, i2c_interface=None, **kwargs):
+def get_i2c_device(address, busnum=8, i2c_interface=None, **kwargs):
     """Return an I2C device for the specified address and on the specified bus.
     If busnum isn't specified, the default I2C bus for the platform will attempt
     to be detected.
@@ -95,8 +95,8 @@ class Device(object):
         self._address = address
         if i2c_interface is None:
             # Use pure python I2C interface if none is specified.
-            import Adafruit_PureIO.smbus
-            self._bus = Adafruit_PureIO.smbus.SMBus(busnum)
+            import smbus
+            self._bus = smbus.SMBus(busnum)
         else:
             # Otherwise use the provided class to create an smbus interface.
             self._bus = i2c_interface(busnum)
